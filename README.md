@@ -1,11 +1,15 @@
 # Devoir Trie
 
-Project fait sur Symfony 6.0 / PHP 8
-  
-  #Install components
+## _3eme année Bachelor Informatique_
+
+Symfony 6 avec PHP 8.0
+
+
+## Instalation
+
+Installer d'abord symfony sur la machine depuis le site de [symfony](https://symfony.com/download)
+
+```bash
   $ composer install
-  
-  #start server  
   $ symfony server:start
-  
-  http://127.0.0.1:8000/
+```
