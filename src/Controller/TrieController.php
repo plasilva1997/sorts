@@ -44,15 +44,32 @@ class TrieController extends AbstractController
     #[Route('/fusion_sort', name: 'fusion_sort')]
     public function fusionSort(): Response
     {
-        $array = array(12, 25, 3, 1, 42, 13, 132, 75, 306, 412, 8); //Tableau à trier
+        $array = array(1, 5, 3, 7, 2); //Tableau à trier
         $arrayBeforeSort = $array; //Tableau d'origine
-
-        $mid = count($array) / 2; //On divise le tableau en 2
-        $left = array_slice($array, 0, $mid); //On récupère le 1er tableau
-        $right = array_slice($array, $mid); //On récupère le 2ème tableau
-
         $start = microtime(true);
-        $array = $this->merge($left, $right); //On fusionne les 2 tableaux
+
+        if( count($array) <= 1 ){ //Si le tableau est vide ou contient un seul élément
+            return $array;  //On retourne le tableau
+        }
+
+        $left =  array(); //Tableau gauche
+        $right = array(); //Tableau droit
+
+        $middle = (int) ( count($array)/2 ); //On divise le tableau en deux parties
+
+        for( $i=0; $i < $middle; $i++ ){ //Pour i allant 0 à middle-1
+            $left[] = $array[$i]; //On ajoute à gauche
+        }
+        for( $i = $middle; $i < count($array); $i++ ){ //Pour i allant middle à n-1
+            $right[] = $array[$i]; //On ajoute les éléments de la deuxième partie du tableau à droite
+        }
+
+        $this->fusionSort($left); //On récursivement trie la liste gauche
+        $this->fusionSort($right); //On récursivement trie la liste droite
+
+        $this->merge($left, $right); //On fusionne les deux listes
+
+
         $end = microtime(true); //Temps de fin
         $timefusionSort = ($end - $start) * 1000; //Temps d'exécution
 
@@ -64,19 +81,28 @@ class TrieController extends AbstractController
         ]);
     }
 
-    private function merge(array $left, array $right)
+    private function merge($left, $right)
     {
-        $result = []; //Tableau de résultat
+        $arraySort = array(); //Tableau de résultat
 
-        while (count($left) > 0 && count($right) > 0) {     //Tant que les 2 tableaux n'ont pas été vidés
-            if ($left[0] <= $right[0]) { //Si le 1er élément du 1er tableau est inférieur ou égal au 1er élément du 2ème tableau
-                $result[] = array_shift($left); //On ajoute le 1er élément du 1er tableau au tableau de résultat
-            } else { //Sinon
-                $result[] = array_shift($right); //On ajoute le 1er élément du 2ème tableau au tableau de résultat
+        while(count($left) > 0 || count($right) > 0){
+            if(count($left) > 0 && count($right) > 0){
+                if($left[0] <= $right[0]){
+                    $arraySort[] = array_shift($left);
+                } else {
+                    $arraySort[] = array_shift($right);
+                }
+            } elseif (count($left) > 0){
+                $arraySort[] = array_shift($left);
+            } elseif (count($right) > 0){
+                $arraySort[] = array_shift($right);
             }
-            $this->loop++; //On incrémente le nombre de boucles
         }
-        return array_merge($result, $left, $right); //On merge les 2 tableaux restants
+
+
+        dd($left , $right);
+
+
     }
 
 
@@ -150,9 +176,6 @@ class TrieController extends AbstractController
 //
 //
 //        dd($array);
-
-
-
 
 
         return $this->render('trie/treesort.html.twig', [
