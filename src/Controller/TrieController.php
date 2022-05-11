@@ -99,8 +99,9 @@ class TrieController extends AbstractController
             }
         }
 
-
-        dd($left , $right);
+            $this->loop++; //On incrémente le nombre de boucles
+     }
+        return $arraySort; //On retourne le tableau trié
 
 
     }
