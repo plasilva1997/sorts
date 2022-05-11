@@ -1,0 +1,54 @@
+<div>
+    <ul style="display: flex; list-style: none; width: 50%; justify-content: space-between">
+        <li>
+            <a href="{{ path('bubble_sort') }}">
+                Bubble Sort
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('fusion_sort') }}">Merge Sort</a></li>
+        <li>
+            <a href="{{ path('tree_sort') }}">Tree Sort</a>
+        </li>
+
+    </ul>
+</div>
+<div class="content">
+    <h2>Bubble Sort</h2>
+
+    <div class="arrays">
+        <div>
+            <h3>Avant</h3>
+            <ul>
+                {% for arrayBeforeSorts in arrayBeforeSort %}
+                    <li>{{ arrayBeforeSorts }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div>
+            <h3>Apres</h3>
+            <ul>
+                {% for bubbles_sort in bubble_sort %}
+                    <li>{{ bubbles_sort }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <p>Le nombre de trie est de {{ count_bubble_sort }} et le temps d'exécution du script {{ time_bubble_sort }}
+        secondes </p>
+</div>
+
+
+<style>
+    body, html {
+        overflow: hidden;
+    }
+
+
+    .arrays ul {
+        list-style: none;
+        padding: 0;
+        margin-right: 30px;
+    }
+</style>
